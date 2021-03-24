@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public Animator animator;
     public BoxCollider2D boxcollider;
-    
+
 
     void Update()
     {
@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         bool crouch = Input.GetKey(KeyCode.LeftControl);
         bool jump = Input.GetKey(KeyCode.Space);
+        float ySize = 1.185594f;
 
         animator.SetFloat("Speed", Mathf.Abs(horizontal));
         animator.SetBool("crouch", crouch);
@@ -30,5 +31,11 @@ public class PlayerController : MonoBehaviour
             scale.x = Mathf.Abs(scale.x);
         }
         transform.localScale = scale;
-    }
+        if (crouch == true)
+        {
+            boxcollider.size = new Vector2(boxcollider.size.x, ySize);
+        }
+
+
+    }   
 }
