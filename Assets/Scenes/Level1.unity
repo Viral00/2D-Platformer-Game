@@ -3052,8 +3052,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1216236790}
-  - component: {fileID: 1216236792}
   - component: {fileID: 1216236793}
+  - component: {fileID: 1216236792}
   - component: {fileID: 1216236791}
   m_Layer: 0
   m_Name: Player
@@ -3123,7 +3123,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &1216236793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3138,6 +3138,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 789381907}
   boxcollider: {fileID: 789381909}
+  speed: 5.9
+  jump: 2
 --- !u!1 &1227314130
 GameObject:
   m_ObjectHideFlags: 0
@@ -4420,6 +4422,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1216236790}
     m_Modifications:
+    - target: {fileID: 6290041139812336576, guid: 6b82cad996759234998902376c7fb9a4,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: f9ba646859cfa874eb6a9ae0e05345e6, type: 2}
     - target: {fileID: 6290041139812336577, guid: 6b82cad996759234998902376c7fb9a4,
         type: 3}
       propertyPath: m_Name
