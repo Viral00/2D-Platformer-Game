@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,20 +10,48 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float jump;
     private Rigidbody2D rb2d;
-   
-    void Update()
+    public bool isjump;
+    
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        collision.gameObject.GetComponent<LevelOverController>();
+        collision.gameObject.GetComponent<GameOverRespawn>(); 
+    }
+
+    public void Start()
+    {
+        if (boxcollider.gameObject.CompareTag("platform"))
+        {
+            isjump = true;
+        }
+        else
+        {
+            isjump = false;
+        }
+    }
+
+    public void Update()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         bool crouch = Input.GetKey(KeyCode.LeftControl);
         float vertical = Input.GetAxisRaw("Jump");
-        
 
         Playermoveanim(horizontal);
-        PlayerMove(horizontal, vertical);
+        if (isjump == true)
+        {
+            PlayerJump(vertical);
+        }
+        
+        if (crouch == false)
+        {
+            PlayerMove(horizontal, vertical);
+        }
+
         PlayerCrouch(crouch);
-        PlayerJump(vertical);
+
         
     }
 
@@ -42,18 +71,21 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerCrouch(bool crouch)
     {
-        float ySize = 1.185594f;
-        float ySize1 = 2.087556f;
-
+        float ySize = 1.211272f;
+        float ySize1 = 2.05f;
+        float yOffset = 0.5706359f;
+        float yOffset1 = 0.99f;
         animator.SetBool("crouch", crouch);
 
         if (crouch == true)
         {
             boxcollider.size = new Vector2(boxcollider.size.x, ySize);
+            boxcollider.offset = new Vector2(boxcollider.offset.x, yOffset);
         }
         else
         {
             boxcollider.size = new Vector2(boxcollider.size.x, ySize1);
+            boxcollider.offset = new Vector2(boxcollider.offset.x, yOffset1);
         }
     }
 
@@ -71,7 +103,11 @@ public class PlayerController : MonoBehaviour
 
     private void Playermoveanim(float horizontal)
     {
-        animator.SetFloat("Speed", Mathf.Abs(horizontal));
+        if (isjump == true)
+        {
+            animator.SetFloat("Speed", Mathf.Abs(horizontal));
+        }
+        
 
         Vector3 scale = transform.localScale;
 
