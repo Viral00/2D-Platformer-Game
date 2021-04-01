@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,26 +10,39 @@ public class PlayerController : MonoBehaviour
     public BoxCollider2D boxcollider;
     public float speed;
     public float jump;
+    public ScoreController scoreController;
     private Rigidbody2D rb2d;
-    public bool isjump;
-    
+    private bool isjump;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         collision.gameObject.GetComponent<LevelOverController>();
-        collision.gameObject.GetComponent<GameOverRespawn>(); 
+        collision.gameObject.GetComponent<GameOverRespawn>();
+        collision.gameObject.GetComponent<KeyController>();
     }
 
-    public void Start()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (boxcollider.gameObject.CompareTag("platform"))
+        if (collision.gameObject.tag == "platform")
         {
             isjump = true;
+            Debug.Log("collision");
         }
-        else
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "platform")
         {
             isjump = false;
+            //Debug.Log("collision");
         }
+    }
+
+    public void PickupKey()
+    {
+        scoreController.IncreaseScore(10);
+        Debug.Log("Key picked up");
     }
 
     public void Update()
@@ -40,6 +54,8 @@ public class PlayerController : MonoBehaviour
         float vertical = Input.GetAxisRaw("Jump");
 
         Playermoveanim(horizontal);
+
+
         if (isjump == true)
         {
             PlayerJump(vertical);
@@ -50,8 +66,7 @@ public class PlayerController : MonoBehaviour
             PlayerMove(horizontal, vertical);
         }
 
-        PlayerCrouch(crouch);
-
+        PlayerCrouch(crouch);    
         
     }
 
@@ -63,9 +78,10 @@ public class PlayerController : MonoBehaviour
         transform.position = position;
 
         // move vertical
-        if(vertical > 0)
+        if(vertical > 0 && isjump == true)
         {
             rb2d.AddForce(new Vector2(0f, jump), ForceMode2D.Force);
+            isjump = false;
         }
     }
 
@@ -102,13 +118,9 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Playermoveanim(float horizontal)
-    {
-        if (isjump == true)
-        {
-            animator.SetFloat("Speed", Mathf.Abs(horizontal));
-        }
-        
-
+    {  
+        animator.SetFloat("Speed", Mathf.Abs(horizontal));
+      
         Vector3 scale = transform.localScale;
 
         if (horizontal < 0)
