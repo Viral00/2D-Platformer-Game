@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
         collision.gameObject.GetComponent<LevelOverController>();
         collision.gameObject.GetComponent<GameOverRespawn>();
         collision.gameObject.GetComponent<KeyController>();
+        collision.gameObject.GetComponent<ChomperController>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -26,16 +27,14 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "platform")
         {
             isjump = true;
-            Debug.Log("collision");
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "platform")
+        if (collision.gameObject.tag != "platform")
         {
             isjump = false;
-            //Debug.Log("collision");
         }
     }
 
@@ -43,6 +42,11 @@ public class PlayerController : MonoBehaviour
     {
         scoreController.IncreaseScore(10);
         Debug.Log("Key picked up");
+    }
+
+    public void EnemyAttack()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public void Update()
@@ -66,14 +70,14 @@ public class PlayerController : MonoBehaviour
             PlayerMove(horizontal, vertical);
         }
 
-        PlayerCrouch(crouch);    
+        PlayerCrouch(crouch);
         
     }
 
     private void PlayerMove(float horizontal, float vertical)
     {
         //move horizontal
-        Vector3 position = transform.position;
+        Vector2 position = transform.position;
         position.x += horizontal * speed * Time.deltaTime;           //+= x = x + y
         transform.position = position;
 
@@ -121,7 +125,7 @@ public class PlayerController : MonoBehaviour
     {  
         animator.SetFloat("Speed", Mathf.Abs(horizontal));
       
-        Vector3 scale = transform.localScale;
+        Vector2 scale = transform.localScale;
 
         if (horizontal < 0)
         {
