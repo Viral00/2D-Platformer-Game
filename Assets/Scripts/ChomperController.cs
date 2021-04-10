@@ -9,12 +9,14 @@ public class ChomperController : MonoBehaviour
     public float Speed;
     public bool isturn;
     public bool attack;
-
+    
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        collision.gameObject.GetComponent<PlayerController>();
-        PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
-        playerController.EnemyAttack();
+        if (collision.gameObject.GetComponent<PlayerController>())
+        {
+            PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
+            playerController.PlayerDeath();
+        }
     }
 
     public void Update()
