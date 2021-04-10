@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public ScoreController scoreController;
     private Rigidbody2D rb2d;
     private bool isjump;
+    public bool death;
+    public GameOverMenu gameovercontroller;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -20,6 +22,12 @@ public class PlayerController : MonoBehaviour
         collision.gameObject.GetComponent<GameOverRespawn>();
         collision.gameObject.GetComponent<KeyController>();
         collision.gameObject.GetComponent<ChomperController>();
+    }
+
+    public void PlayerDeath()
+    {
+        animator.SetTrigger("Death");
+        gameovercontroller.GameOver();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -32,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.tag != "platform")
+        if (collision.gameObject.tag == "platform")
         {
             isjump = false;
         }
@@ -41,12 +49,6 @@ public class PlayerController : MonoBehaviour
     public void PickupKey()
     {
         scoreController.IncreaseScore(10);
-        Debug.Log("Key picked up");
-    }
-
-    public void EnemyAttack()
-    {
-        SceneManager.LoadScene(0);
     }
 
     public void Update()
