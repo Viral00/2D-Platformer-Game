@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
     public void PlayerDeath()
     {
         animator.SetTrigger("Death");
-        gameovercontroller.GameOver();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
