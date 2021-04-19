@@ -12,6 +12,6 @@ public class GameOverRespawn : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             playerHealth.health -= 1;
-        }     
+        }
     }
 }
