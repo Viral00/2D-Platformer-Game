@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public Animator animator;
-    public BoxCollider2D boxcollider;
-    public float speed;
-    public float jump;
-    public ScoreController scoreController;
+    [SerializeField] private Animator animator;
+    [SerializeField] private BoxCollider2D boxcollider;
+    [SerializeField] [Range(0, 10)] private float speed;
+    [SerializeField] private float jump;
+    [SerializeField] private ScoreController scoreController;
     private Rigidbody2D rb2d;
     private bool isjump;
-    public bool death;
-    public GameOverMenu gameovercontroller;
+    [SerializeField] private GameOverMenu gameovercontroller;
+    [SerializeField] private ParticleSystem dust;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,6 +20,8 @@ public class PlayerController : MonoBehaviour
         collision.gameObject.GetComponent<GameOverRespawn>();
         collision.gameObject.GetComponent<KeyController>();
         collision.gameObject.GetComponent<ChomperController>();
+        collision.gameObject.GetComponent<GunnerController>();
+        collision.gameObject.GetComponent<PlatformController>();
     }
 
     public void PlayerDeath()
@@ -34,6 +34,12 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "platform")
         {
             isjump = true;
+            Instantiate(dust, transform.position, dust.transform.rotation);
+        }
+
+        if (collision.gameObject.name.Equals("MovingPlatform"))
+        {
+            this.transform.parent = collision.transform;
         }
     }
 
@@ -43,14 +49,20 @@ public class PlayerController : MonoBehaviour
         {
             isjump = false;
         }
+
+        if (collision.gameObject.name.Equals("MovingPlatform"))
+        {
+            this.transform.parent = null;
+        }
     }
 
     public void PickupKey()
     {
+        SoundManager.Instance.Play(Sounds.KeyCollect);
         scoreController.IncreaseScore(10);
     }
 
-    public void Update()
+    private void Update()
     {
         rb2d = gameObject.GetComponent<Rigidbody2D>();
 

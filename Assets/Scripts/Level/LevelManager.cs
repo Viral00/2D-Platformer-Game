@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,7 +21,7 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void Start()
+    private void Start()
     {
         if (GetLevelStatus(Levels[0]) == LevelStatus.Locked)
         {

@@ -1,23 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public Image heart;
-    public Image heart1;
-    public Image heart2;
-    public Image heart3;
+    [SerializeField] private Image heart;
+    [SerializeField] private Image heart1;
+    [SerializeField] private Image heart2;
+    [SerializeField] private Image heart3;
     public int health;
-    public GameOverMenu gameovercontroller;
-    public PlayerController playerController;
-    public Animator anim;
-    public Animator anim1;
-    public Animator anim2;
-    public Animator anim3;
+    [SerializeField] private GameOverMenu gameovercontroller;
+    [SerializeField] private PlayerController playerController;
+    [SerializeField] private Animator anim;
+    [SerializeField] private Animator anim1;
+    [SerializeField] private Animator anim2;
+    [SerializeField] private Animator anim3;
 
-    public void Start()
+    private void Start()
     {
         health = 4;
         heart.gameObject.SetActive(true);
@@ -26,7 +24,7 @@ public class PlayerHealth : MonoBehaviour
         heart3.gameObject.SetActive(true);
     }
 
-    public void Update()
+    private void Update()
     {
         if (health > 4)
         {
@@ -66,7 +64,6 @@ public class PlayerHealth : MonoBehaviour
                 anim2.SetTrigger("Health");
                 anim3.SetTrigger("Health");
                 playerController.PlayerDeath();
-                gameovercontroller.GameOverUI();
                 break;
         }
     } 

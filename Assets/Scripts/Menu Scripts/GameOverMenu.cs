@@ -9,12 +9,14 @@ public class GameOverMenu : MonoBehaviour
     
     public void BackToMenu()
     {
+        SoundManager.Instance.Play(Sounds.ButtonClickBack);
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
 
     public void Restart()
     {
+        SoundManager.Instance.Play(Sounds.ButtonClickBack);
         Time.timeScale = 1f;
         SceneManager.LoadScene(1);
     }

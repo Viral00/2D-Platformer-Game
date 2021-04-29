@@ -29,7 +29,7 @@ public class SoundManager : MonoBehaviour
     }
 
     private void Start()
-    {
+    { 
         PlayMusic(Sounds.Music);
     }
 
@@ -100,9 +100,11 @@ public class SoundType
 public enum Sounds
 {
     ButtonClick,
+    ButtonClickBack,
     Music,
     PlayerMove,
     PlayerDeath,
     EnemyDeath,
+    KeyCollect,
 }
 
