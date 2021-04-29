@@ -36,6 +36,7 @@ public class PauseMenucontroller : MonoBehaviour
     }
     public void BackToMenu()
     {
+        SoundManager.Instance.Play(Sounds.ButtonClickBack);
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }

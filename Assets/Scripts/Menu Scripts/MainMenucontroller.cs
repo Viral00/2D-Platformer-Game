@@ -9,6 +9,10 @@ public class MainMenucontroller : MonoBehaviour
     {
         SoundManager.Instance.Play(Sounds.ButtonClick);
     }
+    public void BackButtonSound()
+    {
+        SoundManager.Instance.Play(Sounds.ButtonClickBack);
+    }
 
     public void QuitGame()
     {
